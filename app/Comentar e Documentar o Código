@@ -1,0 +1,16 @@
+@app.post("/produtos/", response_model=schemas.Produto)
+def create_produto(produto: schemas.ProdutoCreate, db: Session = Depends(get_db)):
+    db_produto = models.Produto(**produto.dict())
+    try:
+        # Tenta adicionar o produto ao banco de dados
+        db.add(db_produto)
+        db.commit()
+        db.refresh(db_produto)
+    except IntegrityError:
+        # Manipula a exceção de integridade dos dados
+        db.rollback()
+        raise HTTPException(
+            status_code=303,
+            detail=f"Já existe um produto cadastrado com o nome: {produto.nome}"
+        )
+    return db_produto
