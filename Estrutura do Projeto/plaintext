@@ -1,0 +1,9 @@
+tech-store-api/
+├── app
+│   ├── __init__.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   └── main.py
+├── requirements.txt
+└── README.md
